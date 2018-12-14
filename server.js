@@ -3,6 +3,7 @@ const express = require("express");
 const app = express();
 const PORT = process.env.PORT || 3000;
 var mysql = require("mysql");
+
 const htmlRoutes = require('./routes/htmlRoutes');
 const apiRoutes = require('./routes/apiRoutes');
 
@@ -17,9 +18,8 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
 
- app.use('/', htmlRoutes);
-
- app.use('/api', apiRoutes);
+ app.use(htmlRoutes);
+ app.use(apiRoutes);
 
 
 app.listen(PORT, ()=> {
