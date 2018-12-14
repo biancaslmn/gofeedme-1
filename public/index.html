@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Gofeedme</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!--CSS-->
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+        crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheet.css">
+
+
+    <style>
+        .navbar
+        {
+    margin-bottom:0;
+        }</style>
+</head>
+
+<body>
+    <div>
+        <img src="../media/logo.jpeg" alt="Logo" height="30%" width="30%">
+    </div>
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Menu</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="">Login</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="">Events</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="">Leftovers</a>
+                </li>
+            </ul>
+            <form class="form-inline my-2 my-lg-0">
+                <input class="form-control mr-sm-2" type="search" placeholder="Zip Code" aria-label="Search">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            </form>
+    </nav>
+    </div>
+    </div>
+
+
+    <!--Intro to application-->
+    <div>
+        <h1>Free perfectly good leftover food for the people and causes you care about</h1>
+        <hr>
+
+    </div>
+
+    <!--Jumbotron Section-Typography-->
+    <div class="jumbotron">
+        <div class="container">
+
+        </div>
+    </div>
+
+    <!--Picture Slider-->
+
+
+    <!--Auto Activated Carousel-->
+    <div id='carousel_container'>
+        <div id='carousel_inner'>
+            <ul id='carousel_ul'>
+                <li>
+                    <a href='#'>
+                        <img src='../media/ca.jpg' />
+                    </a>
+                </li>
+                <li>
+                    <a href='#'>
+                        <img src='../media/co.jpg' />
+                    </a>
+                </li>
+                <li>
+                    <a href='#'>
+                        <img src='../media/la.jpg' />
+                    </a>
+                </li>
+                <li>
+                    <a href='#'>
+                        <img src='../media/nj.jpg' />
+                    </a>
+                </li>
+                <li>
+                    <a href='#'>
+                        <img src='../media/ny.jpg' />
+                    </a>
+                </li>
+                <li>
+                    <a href='#'>
+                        <img src='../media/or.jpg' />
+                    </a>
+                </li>
+                <li>
+                    <a href='#'>
+                        <img src='../media/sc.jpg' />
+                    </a>
+                </li>
+                <li>
+                    <a href='#'>
+                        <img src='../media/tx.jpg' />
+                    </a>
+                </li>
+                <li>
+                    <a href='#'>
+                        <img src='../media/gables.jpg' />
+                    </a>
+                </li>
+                <li>
+                    <a href='#'>
+                        <img src='../media/rice.jpg' />
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!--Footer-->
+    <div class="footer-copyright "> Copyright © 2018 GoFeedMe
+    </div>
+
+    </div>
+
+</body>
+
+<!--JS File-->
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        //options( 1 - ON , 0 - OFF)  
+        var auto_slide = 1;
+        var hover_pause = 1;
+        var key_slide = 1;
+
+        //speed of auto slide(  
+        var auto_slide_seconds = 0;
+        /* IMPORTANT: i know the variable is called ...seconds but it's 
+        in milliseconds ( multiplied with 1000) '*/
+
+        /*move the last list item before the first item. The purpose of this is 
+        if the user clicks to slide left he will be able to see the last item.*/
+        $('#carousel_ul li:first').before($('#carousel_ul li:last'));
+
+        //check if auto sliding is enabled  
+        if (auto_slide == 1) {
+            /*set the interval (loop) to call function slide with option 'right' 
+            and set the interval time to the variable we declared previously */
+            var timer = setInterval('slide("right")', auto_slide_seconds);
+
+            /*and change the value of our hidden field that hold info about 
+            the interval, setting it to the number of milliseconds we declared previously*/
+            $('#hidden_auto_slide_seconds').val(auto_slide_seconds);
+        }
+
+        //check if hover pause is enabled  
+        if (hover_pause == 1) {
+            //when hovered over the list  
+            $('#carousel_ul').hover(function () {
+                //stop the interval  
+                clearInterval(timer)
+            }, function () {
+                //and when mouseout start it again  
+                timer = setInterval('slide("right")', auto_slide_seconds);
+            });
+
+        }
+
+        //check if key sliding is enabled  
+        if (key_slide == 1) {
+
+            //binding keypress function  
+            $(document).bind('keypress', function (e) {
+                //keyCode for left arrow is 37 and for right it's 39 '  
+                if (e.keyCode == 37) {
+                    //initialize the slide to left function  
+                    slide('left');
+                } else if (e.keyCode == 39) {
+                    //initialize the slide to right function  
+                    slide('right');
+                }
+            });
+
+        }
+
+    }) 
+
+//FUNCTIONS BELLOW  
+
+//slide function  
+function slide(where){  
+
+      //get the item width  
+      var item_width = $('#carousel_ul li').outerWidth() + 10;  
+
+      /* using a if statement and the where variable check 
+      we will check where the user wants to slide (left or right)*/  
+      if(where == 'left'){  
+          //...calculating the new left indent of the unordered list (ul) for left sliding  
+          var left_indent = parseInt($('#carousel_ul').css('left')) + item_width;  
+      }else{  
+          //...calculating the new left indent of the unordered list (ul) for right sliding  
+          var left_indent = parseInt($('#carousel_ul').css('left')) - item_width;  
+
+      }  
+
+      //make the sliding effect using jQuery's animate function... '  
+      $('#carousel_ul:not(:animated)').animate({'left' : left_indent},3000,function(){  
+
+          /* when the animation finishes use the if statement again, and make an ilussion 
+          of infinity by changing place of last or first item*/  
+          if(where == 'left'){  
+              //...and if it slided to left we put the last item before the first item  
+              $('#carousel_ul li:first').before($('#carousel_ul li:last'));  
+          }else{  
+              //...and if it slided to right we put the first item after the last item  
+              $('#carousel_ul li:last').after($('#carousel_ul li:first'));  
+          }  
+
+          //...and then just get back the default left indent  
+          $('#carousel_ul').css({'left' : '-210px'});  
+      });  
+
+}  
+</script>
+
+</html>
