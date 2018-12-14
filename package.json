@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/josez1984/gofeedme/issues"
   },
-  "homepage": "https://github.com/josez1984/gofeedme#readme"
+  "homepage": "https://github.com/josez1984/gofeedme#readme",
+  "dependencies": {
+    "express": "^4.16.4"
+  }
 }
