@@ -5,8 +5,21 @@ var inventory = require("../models/inventory.js");
 var users = require("../models/users.js");
 
 router.post('/api/inventory', function(httpReq, httpRes){
-    console.log(httpReq.body);
-    res.send("inventory updated");
+    // console.log(httpReq.body);
+    // res.send("inventory updated");
+    var columns = [
+        "name",
+        "description",
+        "quantity"
+    ];
+    var values = [
+        httpRes.body.name,
+        httpRes.body.descreption,
+        httpRes.body.quantity        
+    ];
+    inventory.insert(columns, values, function(res) {
+        httpRes.status(200).json(res);
+    });
 });
 
 router.post('/api/users/login', function(httpReq, httpRes) {

@@ -1,10 +1,11 @@
 var orm = require("../config/orm.js");
 
 var inventory = {
-  all: function(cb) {
-    orm.all("inventory", function(res) {
+  insert: function(columns, values, cb) {
+    orm.create("inventory", columns, values, function(res) {
       cb(res);
     });
+
   }
 };
 
