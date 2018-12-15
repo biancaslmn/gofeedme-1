@@ -47,6 +47,8 @@ h1{
     background: #fff;
 }
 
+
+
 #carousel_ul li img {
     width: 200px;
     height: 200px;
@@ -78,6 +80,7 @@ h1{
     cursor: hand;
     border: 0px;
 }
+
 
 #left_scroll, #right_scroll {
     float: left;
@@ -118,3 +121,4 @@ h1{
       width: 100%;
     }
   }
+

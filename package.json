@@ -15,5 +15,9 @@
   "bugs": {
     "url": "https://github.com/josez1984/gofeedme/issues"
   },
-  "homepage": "https://github.com/josez1984/gofeedme#readme"
+  "homepage": "https://github.com/josez1984/gofeedme#readme",
+  "dependencies": {
+    "slick": "^1.12.2",
+    "slick-carousel": "^1.8.1"
+  }
 }

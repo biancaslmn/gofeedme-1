@@ -1,0 +1,15 @@
+.card {
+    display:inline-block;
+    margin: 0px 0px 0px 20px;
+  color: #d16b42;
+  }
+
+  .btn {
+      background: #d16b42;
+      border-color: #d16b42;
+  }
+
+  #carousel_inner_events {
+    width: 2030px;
+    background: #fff;
+}
