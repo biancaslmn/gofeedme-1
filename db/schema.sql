@@ -8,7 +8,7 @@ CREATE TABLE users
     id integer AUTO_INCREMENT NOT NULL,
     name text,
     password text,
-    provider boolean,
+    user_type text,
     PRIMARY KEY(id)
 );
 
