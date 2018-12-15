@@ -39,7 +39,7 @@
                     <a class="nav-link" href="" class="btn btn-default btn-rounded" data-toggle="modal" data-target="#elegantModalForm">Login</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="">Events</a>
+                    <a class="nav-link" href="events.html">Events</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="">Leftovers</a>
@@ -235,6 +235,18 @@ $('#myModal').modal(options) </script>
 
 <script type="text/javascript">
     $(document).ready(function () {
+        $.ajax({
+            url: '/api/users',
+            method: 'POST',
+            data: {
+                test: "test",
+                test2: "test2"
+            }
+        }).then(function(body, status, resp){            
+            console.log(body);
+            console.log(status);
+            console.log(resp);                
+        });
 
         //options( 1 - ON , 0 - OFF)  
         var auto_slide = 1;
