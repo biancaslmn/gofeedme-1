@@ -7,16 +7,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Gofeedme</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
+    
     <!--CSS-->
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
         crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" media="screen" href="stylesheet.css">
-
-    <!--Jquery-->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheet2.css">
+<link rel="stylesheet" type="text/css" href="../node_modules/slick1.8.1/slick1.8.1/slick/slick.css"/>
+<!-- Add the new slick-theme.css if you want the default styling 
+    !-->
+<link rel="stylesheet" type="text/css" href="../node_modules/slick1.8.1/slick1.8.1/slick/slick-theme.css"/>
 
     <style>
         .navbar
@@ -39,7 +39,7 @@
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="" class="btn btn-default btn-rounded" data-toggle="modal" data-target="#elegantModalForm">Login</a>
+                    <a class="nav-link" href="">Login</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="events.html">Events</a>
@@ -57,163 +57,120 @@
     </div>
 
 
-    <!--Intro to application-->
+    <!--Intro to application
     <div>
         <h1>Free perfectly good leftover food for the people and causes you care about</h1>
         <hr>
 
-    </div>
+    </div>-->
 
-    <!-- Modal -->
-<div class="modal fade" id="elegantModalForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-aria-hidden="true">
-<div class="modal-dialog" role="document">
-  <!--Content-->
-  <div class="modal-content form-elegant">
-    <!--Header-->
-    <div class="modal-header text-center">
-      <h3 class="modal-title w-100 dark-grey-text font-weight-bold my-3" id="myModalLabel"><strong>Sign in</strong></h3>
-      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-    <!--Body-->
-    <div class="modal-body mx-4">
-      <!--Body-->
-      <div class="md-form mb-5">
-        <input type="email" id="Form-email1" class="form-control validate">
-        <label data-error="wrong" data-success="right" for="Form-email1">Your email</label>
-      </div>
-
-      <div class="md-form pb-3">
-        <input type="password" id="Form-pass1" class="form-control validate">
-        <label data-error="wrong" data-success="right" for="Form-pass1">Your password</label>
-        <p class="font-small blue-text d-flex justify-content-end">Forgot <a href="#" class="blue-text ml-1">
-            Password?</a></p>
-      </div>
-
-      <div class="text-center mb-3">
-        <button type="button" class="btn blue-gradient btn-block btn-rounded z-depth-1a">Sign in</button>
-      </div>
-      <p class="font-small dark-grey-text text-right d-flex justify-content-center mb-3 pt-2"> or Sign in
-        with:</p>
-
-      <div class="row my-3 d-flex justify-content-center">
-        <!--Facebook-->
-        <button type="button" class="btn btn-white btn-rounded mr-md-3 z-depth-1a"><i class="fa fa-facebook text-center"></i></button>
-        <!--Twitter-->
-        <button type="button" class="btn btn-white btn-rounded mr-md-3 z-depth-1a"><i class="fa fa-twitter"></i></button>
-        <!--Google +-->
-        <button type="button" class="btn btn-white btn-rounded z-depth-1a"><i class="fa fa-google-plus"></i></button>
-      </div>
-    </div>
-    <!--Footer-->
-    <div class="modal-footer mx-5 pt-3 mb-1">
-      <p class="font-small grey-text d-flex justify-content-end">Not a member? <a href="#" class="blue-text ml-1">
-          Sign Up</a></p>
-    </div>
-  </div>
-  <!--/.Content-->
-</div>
-</div>
-<!-- Modal -->
-
-<div class="text-center">
-
-</div>
-
-
-    <!--Jumbotron Section-Typography-->
+    <!--Jumbotron Section-Typography
     <div class="jumbotron">
         <div class="container">
 
         </div>
-    </div>
+    </div>-->
+
+    <!--Picture Slider-->
 
 
     <!--Auto Activated Carousel-->
-    <div id='carousel_container'>
-        <div id='carousel_inner'>
-            <ul id='carousel_ul'>
-                <li>
-                    <a href='#'>
-                        <img src='../media/ca.jpg' />
-                    </a>
-                </li>
-                <li>
-                    <a href='#'>
-                        <img src='../media/co.jpg' />
-                    </a>
-                </li>
-                <li>
-                    <a href='#'>
-                        <img src='../media/la.jpg' />
-                    </a>
-                </li>
-                <li>
-                    <a href='#'>
-                        <img src='../media/nj.jpg' />
-                    </a>
-                </li>
-                <li>
-                    <a href='#'>
-                        <img src='../media/ny.jpg' />
-                    </a>
-                </li>
-                <li>
-                    <a href='#'>
-                        <img src='../media/or.jpg' />
-                    </a>
-                </li>
-                <li>
-                    <a href='#'>
-                        <img src='../media/sc.jpg' />
-                    </a>
-                </li>
-                <li>
-                    <a href='#'>
-                        <img src='../media/tx.jpg' />
-                    </a>
-                </li>
-                <li>
-                    <a href='#'>
-                        <img src='../media/gables.jpg' />
-                    </a>
-                </li>
-                <li>
-                    <a href='#'>
-                        <img src='../media/pizza1.jpg' />
-                    </a>
-                </li>
-            </ul>
+    <br> <br> <br>
+    
+
+    <div id='carousel_container multiple-items'>
+        <div id='carousel_inner_events'>
+            <div class="row">
+           
+               
+                  
+                       <!-- <img src='../media/ca.jpg' />-->
+                        <div class="card" style="width: 18rem;">
+                            <img class="card-img-top" src="../media/example-Charity-gala.png" height="193px" width="45px" alt="Card image cap">
+                            <div class="card-body">
+                              <h5 class="card-title">Annual Charity Event</h5>
+                              <p class="card-text">Kitchen: Indian</p>
+                              <p class="card-text">Address: 41494 Parkview Ln</p>
+                              <a href="#" class="btn btn-primary">View Event</a>
+                            </div>
+                          </div>
+                   
+                
+               
+          
+              
+                 
+                        <!--<img src='../media/co.jpg' />-->
+                        <div class="card" style="width: 18rem;">
+                            <img class="card-img-top" src="../media/examle-kids.jpg" alt="Card image cap">
+                            <div class="card-body">
+                              <h5 class="card-title" id="event-name">Children In Need Event</h5>
+                              <p class="card-text" id="event-kitchen">Kitchen: BBQ</p>
+                              <p class="card-text" id="event-address">Address: 7604 SW 16 St</p>
+                              <a href="#" class="btn btn-primary">View Event</a>
+                            </div>
+                          </div>
+                   
+             
+
+          
+        
+                
+                  
+                        <!--<img src='../media/la.jpg' />-->
+                        <div class="card" style="width: 18rem;">
+                            <img class="card-img-top" src="../media/example-cancer.jpg" alt="Card image cap">
+                            <div class="card-body">
+                              <h5 class="card-title">Cancer Research Fundraiser</h5>
+                              <p class="card-text">Kitchen: Vegetarian</p>
+                              <p class="card-text">Address: 1427 Pine Drive</p>
+                              <a href="#" class="btn btn-primary">View Event</a>
+                            </div>
+                          </div>
+                   
+             
+           
+  
+           
+              
+                    
+                        <!--<img src='../media/nj.jpg' />-->
+                        <div class="card" style="width: 18rem; float: right">
+                            <img class="card-img-top" src="../media/example-marathon.jpg" alt="Card image cap">
+                            <div class="card-body">
+                              <h5 class="card-title">Marathon Fundraiser</h5>
+                              <p class="card-text">Kitchen: Mexican</p>
+                              <p class="card-text">Address: SW 22nd St</p>
+                              <a href="#" class="btn btn-primary">View Event</a>
+                            </div>
+                          </div>
+              
+                
+           
+               
+            
+            </div>
         </div>
     </div>
 
+ 
+    
+        
     <!--Footer-->
     <div class="footer-copyright "> Copyright © 2018 GoFeedMe
     </div>
 
     </div>
-
-    
-
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+    <script type="text/javascript" src="../node_modules/slick/slick.min.js"></script>
 </body>
+
+
 
 <!--JS File-->
 <script type="text/javascript">
     $(document).ready(function () {
-        $.ajax({
-            url: '/api/users',
-            method: 'POST',
-            data: {
-                test: "test",
-                test2: "test2"
-            }
-        }).then(function(body, status, resp){            
-            console.log(body);
-            console.log(status);
-            console.log(resp);                
-        });
 
         //options( 1 - ON , 0 - OFF)  
         var auto_slide = 1;
@@ -292,7 +249,7 @@ function slide(where){
       }  
 
       //make the sliding effect using jQuery's animate function... '  
-      $('#carousel_ul:not(:animated)').animate({'left' : left_indent},700,function(){  
+      $('#carousel_ul:not(:animated)').animate({'left' : left_indent},3000,function(){  
 
           /* when the animation finishes use the if statement again, and make an ilussion 
           of infinity by changing place of last or first item*/  
@@ -309,10 +266,15 @@ function slide(where){
       });  
 
 }  
-
-//Activate Modal
-<button type="button" data-toggle="modal" data-target="#myModal">Launch modal</button>
-$('#myModal').modal(options)
 </script>
 
+<script type="text/javascript">
+    $(document).ready(function(){
+    $('.multiple-items').slick({
+        infinite: true,
+        slidesToShow: 3,
+        slidesToScroll: 3
+      });
+        })
+      </script>
 </html>

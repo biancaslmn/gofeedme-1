@@ -21,6 +21,8 @@
     "express": "^4.16.4",
     "express-handlebars": "^3.0.0",
     "handlebars": "^4.0.12",
-    "mysql": "^2.16.0"
+    "mysql": "^2.16.0",
+    "slick": "^1.12.2",
+    "slick-carousel": "^1.8.1"
   }
 }

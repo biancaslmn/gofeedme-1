@@ -1,3 +1,4 @@
+require('slick-carousel');
 
 const express = require("express");
 const app = express();
