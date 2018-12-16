@@ -27,7 +27,7 @@
     </div>
 
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="#">Menu</a>
+        <a class="navbar-brand" href="http://localhost:3000/index.html">Menu</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -42,8 +42,9 @@
                     <a class="nav-link" href="events.html">Events</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="">Leftovers</a>
+                    <a class="nav-link" href="leftovers.html">Leftovers</a>
                 </li>
+                
             </ul>
             <form class="form-inline my-2 my-lg-0">
                 <input class="form-control mr-sm-2" type="search" placeholder="Zip Code" aria-label="Search">
@@ -60,6 +61,8 @@
         <hr>
 
     </div>
+
+  
 
     <!-- Modal -->
 <div class="modal fade" id="elegantModalForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
@@ -106,7 +109,7 @@ aria-hidden="true">
     </div>
    <!--Footer-->
    <div class="modal-footer mx-5 pt-3 mb-1">
-        <p class="font-small grey-text d-flex justify-content-end">Not a member? <a href="#" class="blue-text ml-1">
+        <p class="font-small grey-text d-flex justify-content-end" >Not a member? <a href="#" id="a-signup" class="blue-text ml-1">
             Sign Up</a></p>
       </div>
     </div>
@@ -116,35 +119,60 @@ aria-hidden="true">
   <!-- Modal -->
 
     <!--Sign Up Form-->
-    <form id="register-form" action="#" method="post" role="form" style="display: none;">
-            <!--User name-->
-            <div class="form-group">
-              <label for="username">Your name</label>
-              <input type="text" name="username" id="username" tabindex="1" class="form-control"
-                placeholder="" value="">
-            </div>
-            <!--Email-->
-            <div class="form-group">
-              <label for="email2">Email</label>
-              <input type="email" name="email2" id="email2" tabindex="1" class="form-control"
-                placeholder="" value="">
-            </div>
-            <!--Password Creation-->
-            <div class="form-group">
-              <label for="password2">Password</label>
-              <input type="password" name="password" id="password2" tabindex="2" class="form-control"
-                placeholder="">
-            </div>
-            <!--Registry-->
-            <div class="form-group submission">
-              <div class="row">
-                <div class="col-sm-6 col-sm-offset-3">
-                  <input type="submit" name="register-submit" id="register-submit" tabindex="4"
-                    class="form-control btn btn-register" value="Register Now">
-                </div>
+    <div class="modal fade" id="exquisiteModalForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <!--Content-->
+      <div class="modal-content form-elegant">
+        <!--Header-->
+        <div class="modal-header text-center">
+          <h3 class="modal-title w-100 dark-grey-text font-weight-bold my-3" id="myModalLabel"><strong>Sign Up</strong></h3>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <!--Body-->
+        <div class="modal-body mx-4">
+          <!--Body-->
+          <div class="md-form mb-5">
+            <input type="email" id="Form-email1" class="form-control validate">
+            <label data-error="wrong" data-success="right" for="Form-email1">Your email</label>
+          </div>
+    
+          <div class="md-form pb-3">
+            <input type="password" id="Form-pass1" class="form-control validate">
+            <label data-error="wrong" data-success="right" for="Form-pass1">Your password</label>
+       
+          </div>
+
+          <div class="md-form pb-3">
+                <input type="password" id="Form-pass2" class="form-control validate">
+                <label data-error="wrong" data-success="right" for="Form-pass1">Confirm Password</label>
+           
               </div>
-            </div>
-          </form>
+    
+          <div class="text-center mb-3">
+            <button type="button" class="btn blue-gradient btn-block btn-rounded z-depth-1a">Sign up</button>
+          </div>
+          <p class="font-small dark-grey-text text-right d-flex justify-content-center mb-3 pt-2"> or Sign up
+            with:</p>
+    
+          <div class="row my-3 d-flex justify-content-center">
+            <!--Facebook-->
+            <button type="button" class="btn btn-white btn-rounded mr-md-3 z-depth-1a"><i class="fa-facebook text-center"></i></button>
+            <!--Twitter-->
+            <button type="button" class="btn btn-white btn-rounded mr-md-3 z-depth-1a"><i class="fa-twitter"></i></button>
+            <!--Google +-->
+            <button type="button" class="btn btn-white btn-rounded z-depth-1a"><i class="fa-google-plus"></i></button>
+          </div>
+        </div>
+       <!--Footer-->
+     
+        </div>
+        <!--/.Content-->
+      </div>
+      </div>
+      <!-- Modal -->
  
 
 
@@ -230,11 +258,18 @@ aria-hidden="true">
 <script> 
 <button type="button" data-toggle="modal" data-target="#myModal">Launch modal</button>
 
-$('#myModal').modal(options) </script>
+$('#elegantModalForm').modal(options) </script>
 
 
 <script type="text/javascript">
     $(document).ready(function () {
+
+       $("#a-signup").on("click", function(){
+           console.log("Hi Biance");
+           $('#elegantModalForm').modal("hide"); 
+           $("#exquisiteModalForm").modal("show");
+       });
+
         $.ajax({
             url: '/api/users',
             method: 'POST',
@@ -342,6 +377,8 @@ function slide(where){
       });  
 
 }  
+
+
 
 
 </script>
