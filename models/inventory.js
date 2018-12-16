@@ -1,8 +1,9 @@
 var orm = require("../config/orm.js");
+var table = "inventory";
 
 var inventory = {
   insert: function(columns, values, cb) {
-    orm.create("inventory", columns, values, function(res) {
+    orm.create(table, columns, values, function(res) {
       cb(res);
     });
 

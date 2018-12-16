@@ -6,10 +6,11 @@ use gofeedme;
 CREATE TABLE users
 (
     id integer AUTO_INCREMENT NOT NULL,
-    name text,
-    password text,
-    user_type text,
-    PRIMARY KEY(id)
+    name text NOT NULL,
+    password text NOT NULL,
+    user_type text NOT NULL,
+    PRIMARY KEY(id),
+    UNIQUE KEY(name) 
 );
 
 CREATE TABLE inventory

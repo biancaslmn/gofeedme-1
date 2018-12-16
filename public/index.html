@@ -135,24 +135,31 @@ aria-hidden="true">
         <div class="modal-body mx-4">
           <!--Body-->
           <div class="md-form mb-5">
-            <input type="email" id="Form-email1" class="form-control validate">
-            <label data-error="wrong" data-success="right" for="Form-email1">Your email</label>
+            <input type="email" id="Form-email-signup" class="form-control validate">
+            <label data-error="wrong" data-success="right" for="Form-email-signup">Your email</label>
           </div>
-    
+          
           <div class="md-form pb-3">
-            <input type="password" id="Form-pass1" class="form-control validate">
-            <label data-error="wrong" data-success="right" for="Form-pass1">Your password</label>
+            <select class="form-control" id="Form-usertype-signup">
+                <option value="CONSUMER" selected>Consumer</option>
+                <option value="PROVIDER">Provider</option>               
+            </select>
+          </div>
+
+          <div class="md-form pb-3">
+            <input type="password" id="Form-pass-signup" class="form-control validate">
+            <label data-error="wrong" data-success="right" for="Form-pass-signup">Your password</label>
        
           </div>
 
           <div class="md-form pb-3">
-                <input type="password" id="Form-pass2" class="form-control validate">
-                <label data-error="wrong" data-success="right" for="Form-pass1">Confirm Password</label>
+                <input type="password" id="Form-pass-signup-2" class="form-control validate">
+                <label data-error="wrong" data-success="right" for="Form-pass-signup-2">Confirm Password</label>
            
               </div>
     
           <div class="text-center mb-3">
-            <button type="button" class="btn blue-gradient btn-block btn-rounded z-depth-1a">Sign up</button>
+            <button id="btn-signup" type="button" class="btn blue-gradient btn-block btn-rounded z-depth-1a">Sign up</button>
           </div>
           <p class="font-small dark-grey-text text-right d-flex justify-content-center mb-3 pt-2"> or Sign up
             with:</p>
@@ -264,23 +271,40 @@ $('#elegantModalForm').modal(options) </script>
 <script type="text/javascript">
     $(document).ready(function () {
 
-       $("#a-signup").on("click", function(){
-           console.log("Hi Biance");
-           $('#elegantModalForm').modal("hide"); 
-           $("#exquisiteModalForm").modal("show");
-       });
+        $("#btn-signup").on("click", function(e) {
+            var email = $("#Form-email-signup").val();
+            var userType = $('#Form-usertype-signup option:selected').val();
+            var passwordArg = $("#Form-pass-signup").val();            
+            var password2 = $("#Form-pass-signup").val();
 
-        $.ajax({
-            url: '/api/users',
-            method: 'POST',
-            data: {
-                test: "test",
-                test2: "test2"
+            if(passwordArg !== password2) {
+                return alert("The passwords do not match");                
             }
-        }).then(function(body, status, resp){            
-            console.log(body);
-            console.log(status);
-            console.log(resp);                
+
+            $.ajax({
+                url: '/api/users',
+                method: 'POST',
+                data: {
+                    name: email,
+                    password: passwordArg,
+                    user_type: userType
+                }
+            }).then(function(body, status, resp){    
+                console.log(body);
+                console.log(status);
+                console.log(resp);
+                if(status === "success") {
+                    alert("New user account created.");
+                } else {
+                    alert("New user account creation failed.")
+                }                   
+            });
+        });
+
+        $("#a-signup").on("click", function(){
+            console.log("Hi Biance");
+            $('#elegantModalForm').modal("hide"); 
+            $("#exquisiteModalForm").modal("show");
         });
 
         //options( 1 - ON , 0 - OFF)  

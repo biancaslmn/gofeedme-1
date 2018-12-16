@@ -2,8 +2,8 @@ var orm = require("../config/orm.js");
 
 var users = {
   insert: function(columns, values, cb) {
-    orm.create("users", columns, values, function(res) {
-      cb(res);
+    orm.create("users", columns, values, function(err, res) {
+      cb(err, res);
     });
   },
   getUser: function(col, val, cb) {

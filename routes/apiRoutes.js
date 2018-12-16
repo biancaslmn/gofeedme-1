@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const multer = require("multer");
 
 var inventory = require("../models/inventory.js");
 var users = require("../models/users.js");
@@ -14,7 +15,7 @@ router.post('/api/inventory', function(httpReq, httpRes){
     ];
     var values = [
         httpRes.body.name,
-        httpRes.body.descreption,
+        httpRes.body.description,
         httpRes.body.quantity        
     ];
     inventory.insert(columns, values, function(res) {
@@ -31,17 +32,18 @@ router.post('/api/users/login', function(httpReq, httpRes) {
 });
 
 router.post('/api/users', function(httpReq, httpRes) {    
-    var columns = [
+    users.insert([
         "name",
         "password",
         "user_type"
-    ];
-    var values = [
+    ], [
         httpReq.body.name,
         httpReq.body.password,
         httpReq.body.user_type
-    ];
-    users.insert(columns, values, function(res) {
+    ], function(err,res) {
+        if(err) {
+            return httpRes.status(500).json({ error: err });
+        }
         httpRes.status(200).json(res);
     });
 });
