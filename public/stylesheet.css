@@ -37,8 +37,8 @@ body{
 img{
     margin-bottom: 15px;
     display: block;
-  margin-left: auto;
-  margin-right: auto;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 h1{
@@ -122,6 +122,8 @@ overflow: hidden;
 a{
     color: #d16b42;
 }
+
+
 
 .form-elegant .z-depth-1a {
     -webkit-box-shadow: 0 2px 5px 0 #d16b42, 0 4px 12px 0 #d16b42;
