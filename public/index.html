@@ -93,7 +93,7 @@ aria-hidden="true">
       </div>
 
       <div class="text-center mb-3">
-        <button type="button" class="btn blue-gradient btn-block btn-rounded z-depth-1a">Sign in</button>
+        <button id="btn-signin" type="button" class="btn blue-gradient btn-block btn-rounded z-depth-1a">Sign in</button>
       </div>
       <p class="font-small dark-grey-text text-right d-flex justify-content-center mb-3 pt-2"> or Sign in
         with:</p>
@@ -262,14 +262,33 @@ aria-hidden="true">
 <!--JS File-->
 
 <!--Activate Modal-->
-<script> 
-<button type="button" data-toggle="modal" data-target="#myModal">Launch modal</button>
-
-$('#elegantModalForm').modal(options) </script>
+<!-- <script> 
+// <button type="button" data-toggle="modal" data-target="#myModal">Launch modal</button>
+    $('#elegantModalForm').modal({});
+</script> -->
 
 
 <script type="text/javascript">
     $(document).ready(function () {
+
+        $("#btn-signin").on("click", function(e) {
+            var email = $("#Form-email1").val();            
+            var password = $("#Form-pass1").val();            
+            if(!email || !password) {
+                return alert("Please enter an email and password");
+            }
+
+            $.ajax({
+                url: `/dashboard?user_id=${email}&password=${password}`,
+                method: 'GET'
+            }).then(function(body, status, resp) {                        
+               if(body.result === 'redirect') {                    
+                    window.location.replace(body.url);
+                } 
+            }).catch(function(err){                
+                alert(err.responseJSON.message);
+            });
+        });
 
         $("#btn-signup").on("click", function(e) {
             var email = $("#Form-email-signup").val();
@@ -297,12 +316,12 @@ $('#elegantModalForm').modal(options) </script>
                     alert("New user account created.");
                 } else {
                     alert("New user account creation failed.")
-                }                   
+                }
+                $("#exquisiteModalForm").modal("hide");                   
             });
         });
 
-        $("#a-signup").on("click", function(){
-            console.log("Hi Biance");
+        $("#a-signup").on("click", function(){            
             $('#elegantModalForm').modal("hide"); 
             $("#exquisiteModalForm").modal("show");
         });

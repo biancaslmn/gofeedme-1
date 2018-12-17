@@ -9,6 +9,7 @@ router.get('/', (req, res)=> {
 });
 
 router.get('/login', function(httpReq, httpRes) {
+    console.log(httpRes.query);
     httpRes.redirect('/dashboard.html?user_id=123');
 });
 
@@ -16,8 +17,31 @@ router.get('/registration', (req, res)=> {
     res.sendFile(path.join(__dirname + '/../public/registration.html'));
 });
 
-router.get('/dashboard', (req, res)=> {
-    res.sendFile(path.join(__dirname + '/../public/dashboard.html'));
+router.get('/dashboard', (httpReq, httpRes)=> {
+    if(!httpReq.query.user_id || !httpReq.query.password) {
+        return httpRes.status(400).json({ error: "You must provide a username and a password for login." });
+    }
+
+    users.getUser('name', httpReq.query.user_id, function(err, result) {       
+        if(result.length > 0) {
+            if(httpReq.query.password === result[0].password) {                
+                httpRes.status(200).json({ 
+                    result: 'redirect', 
+                    url: `/dashboard.html?user_id=${result[0].id}` 
+                });                
+            } else {
+                httpRes.status(401).json({ 
+                    result: 'error', 
+                    message: 'Invalid password.' 
+                });
+            }            
+        } else {
+            httpRes.status(401).json({
+                result: 'error',
+                message: 'Username not found.'
+            })
+        }
+    })    
 });
 
 module.exports = router;
