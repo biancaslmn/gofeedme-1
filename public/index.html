@@ -23,7 +23,7 @@
 
 <body>
     <div>
-        <img src="../media/logo.jpeg" alt="Logo" height="30%" width="30%">
+        <img href="http://localhost:3000/index.html" src="../media/logo.jpeg" alt="Logo" height="30%" width="30%">
     </div>
 
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -253,6 +253,17 @@ aria-hidden="true">
 </body>
 
 <!--JS File-->
+<!--Login and Sign Up API/AJAX-->
+<script>
+$(document).ready(function() {
+    var urlParams = new URLSearchParams(window.location.search);
+    if(urlParams.has('user_id')) {
+        // userId = passed with every API call to get user data
+        var userId = urlParams.get('user_id');
+        // HERE WE LOAD THE CURRENT PAGE WITH THE USER SPECIFIC DATA WITH AJAX
+    }
+});
+</script>
 
 <!--Activate Modal-->
 <script> 

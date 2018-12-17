@@ -277,6 +277,18 @@
 
 <!--JS File-->
 
+<!--Login and Sign Up API/AJAX-->
+<script>
+        $(document).ready(function() {
+            var urlParams = new URLSearchParams(window.location.search);
+            if(urlParams.has('user_id')) {
+                // userId = passed with every API call to get user data
+                var userId = urlParams.get('user_id');
+                // HERE WE LOAD THE CURRENT PAGE WITH THE USER SPECIFIC DATA WITH AJAX
+            }
+        });
+        </script>
+
 <!--Activate Modal-->
 <script> 
         <button type="button" data-toggle="modal" data-target="#myModal">Launch modal</button>
