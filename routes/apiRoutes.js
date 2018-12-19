@@ -10,11 +10,9 @@ router.post('/api/events', function(httpReq, httpRes) {
     if(!httpReq.body.user_id) {
         return httpRes.status(401).json({ 
             result: "error",
-            message: "You must supply a 'user_id' to update inventory."
+            message: "You must supply a 'user_id' to post an event."
         });
     }
-    
-    
     var columns = [
         "name",
         "address",
@@ -26,7 +24,8 @@ router.post('/api/events', function(httpReq, httpRes) {
         httpReq.body.name,
         httpReq.body.address,
         httpReq.body.user_id,
-        httpReq.body.zipcode     
+        httpReq.body.zipcode
+             
     ];
 
     events.insert(columns, values, function(err, res) {
@@ -37,6 +36,70 @@ router.post('/api/events', function(httpReq, httpRes) {
     });
 });
 
+router.delete('/api/events', function(httpReq, httpRes) {
+    if(!httpReq.body.user_id) {
+        return httpRes.status(401).json({ 
+            result: "error",
+            message: "You must supply a 'user_id' to delete an event."
+        });
+    }
+    
+    if(!httpReq.body.id) {
+        return httpRes.status(401).json({ 
+            result: "error",
+            message: "You must supply an 'id' to update your event."
+        });
+    }
+
+    events.update({
+        deleted: 1
+    }, {
+        key: "id",
+        val: httpReq.body.id
+    }, function(err, res) {
+        if(err) {
+            return httpRes.status(500).json({ error: err });
+        }
+        httpRes.status(200).json(res);
+    })
+});
+
+
+
+router.put('/api/events', function(httpReq, httpRes) {
+    if(!httpReq.body.user_id) {
+        return httpRes.status(401).json({ 
+            result: "error",
+            message: "You must supply a 'user_id' to update inventory."
+        });
+    }
+
+    if(!httpReq.body.id) {
+        return httpRes.status(401).json({ 
+            result: "error",
+            message: "You must supply an 'id' to update inventory."
+        });
+    }
+
+    var updateObj = {
+        name: httpReq.body.name,
+        address: httpReq.body.address,
+        zipcode: httpReq.body.zipcode,
+        deleted: httpReq.body.deleted   
+    }
+    
+    var where = {
+        key: "id",
+        val: httpReq.body.id
+    };
+
+    events.update(updateObj, where, function(err, res) {
+        if(err) {
+            return httpRes.status(500).json({ error: err });
+        }
+        httpRes.status(200).json(res);
+    })
+});
 router.delete('/api/inventory', function(httpReq, httpRes) {
     if(!httpReq.body.user_id) {
         return httpRes.status(401).json({ 
