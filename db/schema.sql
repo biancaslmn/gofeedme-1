@@ -1,3 +1,4 @@
+
 DROP DATABASE gofeedme;
 CREATE DATABASE gofeedme;
 
@@ -42,6 +43,9 @@ CREATE TABLE events
     name text,
     address text,
     user_id integer,
+    deleted integer DEFAULT 0,
+    zipcode integer,
+    FOREIGN KEY (user_id) REFERENCES users(id),
     PRIMARY KEY(id)
 );
 

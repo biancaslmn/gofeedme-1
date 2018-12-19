@@ -4,6 +4,38 @@ const multer = require("multer");
 
 var inventory = require("../models/inventory.js");
 var users = require("../models/users.js");
+var events = require("../models/events.js");
+
+router.post('/api/events', function(httpReq, httpRes) {
+    if(!httpReq.body.user_id) {
+        return httpRes.status(401).json({ 
+            result: "error",
+            message: "You must supply a 'user_id' to update inventory."
+        });
+    }
+    
+    
+    var columns = [
+        "name",
+        "address",
+        "user_id",
+        "zipcode"
+    ];
+
+    var values = [
+        httpReq.body.name,
+        httpReq.body.address,
+        httpReq.body.user_id,
+        httpReq.body.zipcode     
+    ];
+
+    events.insert(columns, values, function(err, res) {
+        if(err) {
+            return httpRes.status(500).json({ error: err });
+        }
+        httpRes.status(200).json(res);
+    });
+});
 
 router.delete('/api/inventory', function(httpReq, httpRes) {
     if(!httpReq.body.user_id) {
