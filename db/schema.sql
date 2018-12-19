@@ -6,7 +6,7 @@ use gofeedme;
 CREATE TABLE users
 (
     id integer AUTO_INCREMENT NOT NULL,
-    name text NOT NULL,
+    name varchar(255) NOT NULL,
     password text NOT NULL,
     user_type text NOT NULL,
     PRIMARY KEY(id),
@@ -19,6 +19,9 @@ CREATE TABLE inventory
     name text,
     description text,
     quantity numeric,
+    user_id integer,
+    deleted integer DEFAULT 0,
+    FOREIGN KEY (user_id) REFERENCES users(id),
     PRIMARY KEY(id)
 );
 

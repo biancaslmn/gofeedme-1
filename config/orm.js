@@ -26,7 +26,7 @@ function objToSql(ob) {
     // check to skip hidden properties
     if (Object.hasOwnProperty.call(ob, key)) {
       // if string with spaces, add quotations (Lana Del Grey => 'Lana Del Grey')
-      if (typeof value === "string" && value.indexOf(" ") >= 0) {
+      if (typeof value === "string") {
         value = "'" + value + "'";
       }
       // e.g. {name: 'Lana Del Grey'} => ["name='Lana Del Grey'"]
@@ -77,11 +77,9 @@ var orm = {
   // An example of objColVals would be {name: panther, sleepy: true}
   update: function(table, objColVals, condition, cb) {
     var queryString = "UPDATE " + table;
-
     queryString += " SET ";
     queryString += objToSql(objColVals);
-    queryString += " WHERE ";
-    queryString += condition;
+    queryString += ` WHERE ${condition.key} = ${condition.val}`;
 
     console.log(queryString);
     connection.query(queryString, function(err, result) {
@@ -89,7 +87,7 @@ var orm = {
         throw err;
       }
 
-      cb(result);
+      cb(err, result);
     });
   }
 };
