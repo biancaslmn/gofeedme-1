@@ -41,6 +41,31 @@ function objToSql(ob) {
 
 // Object for all our SQL statement functions.
 var orm = {
+  selectWhere2: function(tableInput, whereObj, cb) {
+    var query = "SELECT * FROM ?? WHERE deleted = 0 AND";
+    var params = [tableInput];
+    var arr = [];
+    for (var key in whereObj) {
+      var value = whereObj[key];
+      // check to skip hidden properties
+      if (Object.hasOwnProperty.call(whereObj, key)) {
+        arr.push(" ?? = ? ");        
+        params.push(key);
+        console.log(key);
+        params.push(whereObj[key]);
+        console.log(whereObj[key]);
+      }
+    }
+    query += arr.join("AND");
+
+    console.log(query);
+    connection.query(query, params, function(err, result) {
+      if(err) {
+        throw err;
+      }
+      cb(err, result);
+    });
+  },
   selectWhere: function(tableInput, colToSearch, valOfCol, cb) {
     var queryString = "SELECT * FROM ?? WHERE ?? = ?";
     connection.query(queryString, [tableInput, colToSearch, valOfCol], function(err, result) {

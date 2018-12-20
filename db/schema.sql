@@ -14,18 +14,6 @@ CREATE TABLE users
     UNIQUE KEY(name) 
 );
 
-CREATE TABLE inventory
-(
-    id integer AUTO_INCREMENT NOT NULL,
-    name text,
-    description text,
-    quantity numeric,
-    user_id integer,
-    deleted integer DEFAULT 0,
-    FOREIGN KEY (user_id) REFERENCES users(id),
-    PRIMARY KEY(id)
-);
-
 CREATE TABLE restaurants
 (
     id integer AUTO_INCREMENT NOT NULL,
@@ -34,6 +22,22 @@ CREATE TABLE restaurants
     zipcode text,
     kitchen text,
     user_id integer NOT NULL,
+    deleted integer DEFAULT 0,
+    FOREIGN KEY (user_id) REFERENCES users(id),
+    PRIMARY KEY(id)
+);
+
+CREATE TABLE inventory
+(
+    id integer AUTO_INCREMENT NOT NULL,
+    name text,
+    description text,
+    quantity numeric,
+    user_id integer NOT NULL,
+    deleted integer DEFAULT 0,
+    restaurant_id integer NOT NULL,
+    FOREIGN KEY (restaurant_id) REFERENCES restaurants(id),
+    FOREIGN KEY (user_id) REFERENCES users(id),
     PRIMARY KEY(id)
 );
 

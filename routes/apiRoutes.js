@@ -1,16 +1,73 @@
 const express = require('express');
 const router = express.Router();
-const multer = require("multer");
 
 var inventory = require("../models/inventory.js");
 var users = require("../models/users.js");
 var events = require("../models/events.js");
+var restaurants = require("../models/restaurants.js");
+
+var authErrorMessage = "You must supply a 'user_id'";
+
+router.post ('/api/restaurants', function(httpReq, httpRes) {
+    if(!httpReq.body.user_id) {
+        return httpRes.status(401).json({ 
+            result: "error",
+            message: authErrorMessage
+        });
+    }
+
+    var columns = [
+        "name",
+        "address",
+        "zipcode",
+        "kitchen",
+        "user_id"
+    ];
+
+    var values = [
+        httpReq.body.name,
+        httpReq.body.address,
+        httpReq.body.zipcode,
+        httpReq.body.kitchen,
+        httpReq.body.user_id     
+    ];
+
+    restaurants.insert(columns, values, function(err, res) {
+        if(err) {
+            return httpRes.status(500).json({ error: err });
+        }
+        httpRes.status(200).json(res);
+    });
+});
+
+router.get('/api/inventory', function(httpReq, httpRes) {    
+    if(!httpReq.body.user_id) {
+        return httpRes.status(401).json({ 
+            result: "error",
+            message: authErrorMessage
+        });
+    }
+
+    var whereObj = {};
+    whereObj["user_id"] = httpReq.body.user_id;
+    
+    if(httpReq.body.restaurant_id) {
+        whereObj["restaurant_id"] = httpReq.body.restaurant_id;
+    }
+
+    inventory.getAll(whereObj, function(err, res) {
+        if(err) {
+            return httpRes.status(500).json({ error: err });
+        }
+        httpRes.status(200).json(res);
+    })
+});
 
 router.post('/api/events', function(httpReq, httpRes) {
     if(!httpReq.body.user_id) {
         return httpRes.status(401).json({ 
             result: "error",
-            message: "You must supply a 'user_id' to post an event."
+            message: authErrorMessage
         });
     }
     var columns = [
@@ -100,6 +157,7 @@ router.put('/api/events', function(httpReq, httpRes) {
         httpRes.status(200).json(res);
     })
 });
+
 router.delete('/api/inventory', function(httpReq, httpRes) {
     if(!httpReq.body.user_id) {
         return httpRes.status(401).json({ 
@@ -175,14 +233,16 @@ router.post('/api/inventory', function(httpReq, httpRes){
         "name",
         "description",
         "quantity",
-        "user_id"
+        "user_id",
+        "restaurant_id"
     ];
 
     var values = [
         httpReq.body.name,
         httpReq.body.description,
         httpReq.body.quantity,
-        httpReq.body.user_id     
+        httpReq.body.user_id,
+        httpReq.body.restaurant_id
     ];
 
     inventory.insert(columns, values, function(err, res) {
