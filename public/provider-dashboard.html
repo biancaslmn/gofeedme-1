@@ -148,17 +148,17 @@
             <form class="container">
               <div class="form-row">
                 <div class="form-group col-md-6">
-                  <label for="inputRestaurant4">Name</label>
-                  <input type="restaurant" class="form-control" id="inputRestaurant4" placeholder="Restaurant">
+                  <label for="inputRestaurant4-inventory">Name</label>
+                  <input type="text" class="form-control" id="inputRestaurant4-inventory" placeholder="Name">
                 </div>
                 <div class="form-group" >
                   <label for="inputDescription4">Description</label>
-                  <input type="description" class="form-control" id="inpuDescription4" placeholder="leftovers">
+                  <input type="text" class="form-control" id="inputDescription4" placeholder="Description">
                 </div>
               </div>
               <div class="form-group">
                 <label for="inputQuantity">Quantity</label>
-                <input type="text" class="form-control" id="inputQuantity" placeholder="25">
+                <input type="number" class="form-control" id="inputQuantity" placeholder="25">
               </div>
                 <div class="form-check">
                   <input class="form-check-input" type="checkbox" id="gridCheck">
@@ -200,6 +200,7 @@
   <script type="text/javascript">
     $(document).ready(function() {
       var urlParams = new URLSearchParams(window.location.search);
+      var userId;
       if(urlParams.has('user_id')) {              
         var userId = urlParams.get('user_id');                 
         $.ajax({
@@ -222,7 +223,7 @@
                     id="btn-add-inventory${body[i].id}" 
                     data-restaurant-id="${body[i].id}" 
                     type="button" 
-                    class="btn btn-primary btn-sm btn-add-inventory-cls">
+                    class="btn btn-outline-success btn-sm btn-add-inventory-cls">
                     Add Inventory
                   </button>
                 </td>
@@ -235,8 +236,33 @@
       }
 
       $("#table-restaurant").on("click", ".btn-add-inventory-cls", function() {
-        alert($(this).attr("data-restaurant-id"));
+        console.log($(this).attr("data-restaurant-id"));
+        $("#inventoryBtn").attr("data-restaurant-id", $(this).attr("data-restaurant-id"));
+        $("#inventoryModalForm").modal('show');
       });
+
+      $("#inventoryBtn").on("click", function(e) {
+        e.preventDefault();
+        $.ajax({
+          url: '/api/inventory',
+          method: 'POST',
+          data: {
+            name: $("#inputRestaurant4-inventory").val(),
+            description: $("#inputDescription4").val(),
+            quantity: $("#inputQuantity").val(),
+            user_id: userId,
+            restaurant_id: $(this).attr("data-restaurant-id")
+          }
+        }).then(function(body, status, resp){
+          if(status === 'success') {
+            alert("The inventory was posted successfully.");
+          } else {
+            alert("There was an issue posting the inventory.");
+          }
+          $("#inventoryModalForm").modal('hide');
+        });
+      });
+
     });
   </script>
 
