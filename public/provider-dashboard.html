@@ -93,22 +93,22 @@
               <label for="inputAddress">Address</label>
               <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St">
             </div>
-            <div class="form-group">
+            <!-- <div class="form-group">
               <label for="inputAddress2">Address 2</label>
               <input type="text" class="form-control" id="inputAddress2" placeholder="Apartment, studio, or floor">
-            </div>
+            </div> -->
             <div class="form-row">
-              <div class="form-group col-md-6">
+              <!-- <div class="form-group col-md-6">
                 <label for="inputCity">City</label>
                 <input type="text" class="form-control" id="inputCity">
-              </div>
-              <div class="form-group col-md-4">
+              </div> -->
+              <!-- <div class="form-group col-md-4">
                 <label for="inputState">State</label>
                 <select id="inputState" class="form-control">
                   <option selected>Choose...</option>
                   <option>...</option>
                 </select>
-              </div>
+              </div> -->
               <div class="form-group col-md-2">
                 <label for="inputZip">Zip</label>
                 <input type="text" class="form-control" id="inputZip">
@@ -122,7 +122,7 @@
                 </label>
               </div>
             </div>
-            <button type="submit" class="btn btn-outline-success ">Submit</button>
+            <button id="btn-submit-restaurant" type="submit" class="btn btn-outline-success ">Submit</button>
           </form>
         </div>
       </div>
@@ -184,7 +184,7 @@
     <p>Below are your restaurants created:</p>
     <table id="table-restaurant" class="table table-hover">
       <thead>
-        <tr>
+        <tr style="font-size: 18px">
           <th>Name</th>
           <th>Address</th>
           <th>Zip Code</th>
@@ -202,41 +202,11 @@
       var urlParams = new URLSearchParams(window.location.search);
       var userId;
       if(urlParams.has('user_id')) {              
-        var userId = urlParams.get('user_id');                 
-        $.ajax({
-          url: '/api/restaurants',
-          method: 'GET',
-          data: {
-            user_id: userId
-          }
-        }).then(function(body, status, resp){    
-          if(status === "success") {
-            for(var i = 0; i < body.length; i++) {              
-              $("#table-body-restaurants").append(`
-              <tr>
-                <td>${body[i].name}</td>
-                <td>${body[i].address}</td>
-                <td>${body[i].zipcode}</td>
-                <td>${body[i].kitchen}</td>
-                <td>
-                  <button 
-                    id="btn-add-inventory${body[i].id}" 
-                    data-restaurant-id="${body[i].id}" 
-                    type="button" 
-                    class="btn btn-outline-success btn-sm btn-add-inventory-cls">
-                    Add Inventory
-                  </button>
-                </td>
-              </tr>`);
-            }     
-          } else {
-            alert("There was an issue loading restaurant data.");
-          }                 
-        });
+        userId = urlParams.get('user_id');    
+        reloadData(userId);                     
       }
 
       $("#table-restaurant").on("click", ".btn-add-inventory-cls", function() {
-        console.log($(this).attr("data-restaurant-id"));
         $("#inventoryBtn").attr("data-restaurant-id", $(this).attr("data-restaurant-id"));
         $("#inventoryModalForm").modal('show');
       });
@@ -256,14 +226,100 @@
         }).then(function(body, status, resp){
           if(status === 'success') {
             alert("The inventory was posted successfully.");
+            reloadData(userId);
           } else {
             alert("There was an issue posting the inventory.");
           }
           $("#inventoryModalForm").modal('hide');
+          $("#inputRestaurant4-inventory").val("");
+          $("#inputDescription4").val("");
+          $("#inputQuantity").val("");
         });
       });
 
+      $("#btn-submit-restaurant").on("click", function(e) {
+        e.preventDefault();
+        $.ajax({
+          url: '/api/restaurants',
+          method: 'POST',
+          data: {
+            name: $("#inputRestaurant4").val(),
+            address: $("#inputAddress").val(),
+            zipcode: $("#inputZip").val(),
+            kitchen: $("#inputKitchen4").val(),
+            user_id: userId 
+          }
+        }).then(function(body, status, resp){
+          if(status === 'success') {
+            alert("The restaurant was posted successfully.");
+            reloadData(userId);
+          } else {
+            alert("There was an issue posting the restaurant.");
+          }
+          $("#elegantModalForm").modal('hide');
+          $("#inputAddress").val("");
+          $("#inputZip").val("");
+          $("#inputKitchen4").val("");
+        });
+      });
     });
+
+    function reloadData(userId){
+      $("#table-body-restaurants").empty();
+      $.ajax({
+          url: '/api/restaurants',
+          method: 'GET',
+          data: {
+            user_id: userId
+          }
+        }).then(function(body, status, resp){    
+          if(status === "success") {
+            $.ajax({
+                url: '/api/inventory',
+                method: 'GET',
+                data: {
+                  user_id: userId                
+                }
+              }).then(function(body2, status2, resp2) {
+                if(status === 'success') {
+                  for(var i = 0; i < body.length; i++) {                              
+                    $("#table-body-restaurants").append(`
+                    <tr>
+                      <td><strong>${body[i].name}</strong></td>
+                      <td><strong>${body[i].address}</strong></td>
+                      <td><strong>${body[i].zipcode}</strong></td>
+                      <td><strong>${body[i].kitchen}</strong></td>
+                      <td>
+                        <button 
+                          id="btn-add-inventory${body[i].id}" 
+                          data-restaurant-id="${body[i].id}" 
+                          type="button" 
+                          class="btn btn-outline-success btn-sm btn-add-inventory-cls">
+                          Add Inventory
+                        </button>
+                      </td>
+                    </tr>`);
+                    
+                    for(var x = 0; x < body2.length; x++) {
+                      if(body[i].id === body2[x].restaurant_id) {
+                        $("#table-body-restaurants").append(`
+                          <tr>
+                            <td></td>
+                            <td>${body2[x].name}</td>
+                            <td>${body2[x].description}</td>
+                            <td>${body2[x].quantity}</td>
+                            <td></td>
+                          </tr>`);
+                        }
+                      }                      
+                  }
+                }
+              });                 
+          } else {
+            alert("There was an issue loading restaurant data.");
+          }                 
+        });
+    }
   </script>
 
   <!--Footer-->

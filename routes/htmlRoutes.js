@@ -32,7 +32,10 @@ router.get('/dashboard', (httpReq, httpRes)=> {
                         url: `/provider-dashboard.html?user_id=${result[0].id}` 
                     });
                 } else {
-
+                    return httpRes.status(200).json({ 
+                        result: 'redirect', 
+                        url: `/beneficiary-dashboard.html?user_id=${result[0].id}` 
+                    });
                 }                                      
             } else {
                 httpRes.status(401).json({ 

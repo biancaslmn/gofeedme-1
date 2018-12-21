@@ -60,7 +60,7 @@ router.post('/api/restaurants', function(httpReq, httpRes) {
 });
 
 router.get('/api/inventory', function(httpReq, httpRes) {    
-    if(!httpReq.body.user_id) {
+    if(!httpReq.query.user_id) {
         return httpRes.status(401).json({ 
             result: "error",
             message: authErrorMessage
@@ -68,10 +68,10 @@ router.get('/api/inventory', function(httpReq, httpRes) {
     }
 
     var whereObj = {};
-    whereObj["user_id"] = httpReq.body.user_id;
+    whereObj["user_id"] = httpReq.query.user_id;
     
-    if(httpReq.body.restaurant_id) {
-        whereObj["restaurant_id"] = httpReq.body.restaurant_id;
+    if(httpReq.query.restaurant_id) {
+        whereObj["restaurant_id"] = httpReq.query.restaurant_id;
     }
 
     inventory.getAll(whereObj, function(err, res) {
