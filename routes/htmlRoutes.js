@@ -23,12 +23,17 @@ router.get('/dashboard', (httpReq, httpRes)=> {
     }
 
     users.getUser('name', httpReq.query.user_id, function(err, result) {       
+        console.log(result);
         if(result.length > 0) {
-            if(httpReq.query.password === result[0].password) {                
-                httpRes.status(200).json({ 
-                    result: 'redirect', 
-                    url: `/dashboard.html?user_id=${result[0].id}` 
-                });                
+            if(httpReq.query.password === result[0].password) {   
+                if(result[0].user_type === 'PROVIDER') {
+                    return httpRes.status(200).json({ 
+                        result: 'redirect', 
+                        url: `/provider-dashboard.html?user_id=${result[0].id}` 
+                    });
+                } else {
+
+                }                                      
             } else {
                 httpRes.status(401).json({ 
                     result: 'error', 

@@ -8,7 +8,26 @@ var restaurants = require("../models/restaurants.js");
 
 var authErrorMessage = "You must supply a 'user_id'";
 
-router.post ('/api/restaurants', function(httpReq, httpRes) {
+router.get('/api/restaurants', function(httpReq, httpRes) {
+    if(!httpReq.query.user_id) {
+        return httpRes.status(401).json({ 
+            result: "error",
+            message: authErrorMessage
+        });
+    }
+
+    var whereObj = {};
+    whereObj["user_id"] = httpReq.query.user_id;
+    
+    restaurants.getAll(whereObj, function(err, res) {
+        if(err) {
+            return httpRes.status(500).json({ error: err });
+        }
+        httpRes.status(200).json(res);
+    })
+});
+
+router.post('/api/restaurants', function(httpReq, httpRes) {
     if(!httpReq.body.user_id) {
         return httpRes.status(401).json({ 
             result: "error",

@@ -129,45 +129,67 @@
   </div>
 
   <!--Table-->
-  <div class="container" id="table">
+  <div id="div-restaurants-table" class="container">
     <h2><strong>Provider's Restaurants</strong></h2>
 
     <p>Below are your restaurants created:</p>
-    <table class="table table-hover">
+    <table id="table-restaurant" class="table table-hover">
       <thead>
         <tr>
           <th>Name</th>
           <th>Address</th>
           <th>Zip Code</th>
           <th>Kitchen</th>
-          <th>Inventory</th>
+          <th>Actions</th>
         </tr>
       </thead>
-      <tbody>
-        <tr>
-          <td>Zaatar Kitchen</td>
-          <td> 10 Rodeo Drive</td>
-          <td>90210</td>
-          <td>Mediterranean</td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>Le P'tit Creux</td>
-          <td>63 Saint Michel st</td>
-          <td>10002</td>
-          <td>French</td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>Bella Vita Restaurant</td>
-          <td>22 Park Lane st</td>
-          <td>33179</td>
-          <td>Italian</td>
-          <td></td>
-        </tr>
+      <tbody id="table-body-restaurants">        
       </tbody>
     </table>
   </div>
+
+  <script type="text/javascript">
+    $(document).ready(function() {
+      var urlParams = new URLSearchParams(window.location.search);
+      if(urlParams.has('user_id')) {              
+        var userId = urlParams.get('user_id');                 
+        $.ajax({
+          url: '/api/restaurants',
+          method: 'GET',
+          data: {
+            user_id: userId
+          }
+        }).then(function(body, status, resp){    
+          if(status === "success") {
+            for(var i = 0; i < body.length; i++) {              
+              $("#table-body-restaurants").append(`
+              <tr>
+                <td>${body[i].name}</td>
+                <td>${body[i].address}</td>
+                <td>${body[i].zipcode}</td>
+                <td>${body[i].kitchen}</td>
+                <td>
+                  <button 
+                    id="btn-add-inventory${body[i].id}" 
+                    data-restaurant-id="${body[i].id}" 
+                    type="button" 
+                    class="btn btn-primary btn-sm btn-add-inventory-cls">
+                    Add Inventory
+                  </button>
+                </td>
+              </tr>`);
+            }     
+          } else {
+            alert("There was an issue loading restaurant data.");
+          }                 
+        });
+      }
+
+      $("#table-restaurant").on("click", ".btn-add-inventory-cls", function() {
+        alert($(this).attr("data-restaurant-id"));
+      });
+    });
+  </script>
 
   <!--Footer-->
   <div class="footer-copyright2 "> Copyright © 2018 GoFeedMe
