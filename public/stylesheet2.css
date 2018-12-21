@@ -64,6 +64,10 @@ img{
   margin-right: auto;
 }
 
+#Form-usertype-signup{
+padding-bottom: 5px;
+}
+
 h1{
     margin-top: 370px;
     font-size: 18px;
