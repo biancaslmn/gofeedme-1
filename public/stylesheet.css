@@ -68,7 +68,9 @@ overflow: hidden;
     background: #fff;
 }
 
-
+#inventoryBtn{
+    margin-left: 200px;
+}
 
 #carousel_ul li img {
     width: 200px;
@@ -138,6 +140,11 @@ a{
 
 .card-title{
     color: black;
+}
+
+.form-control{
+    width: 100%;
+
 }
 
 .form-elegant .z-depth-1a {
