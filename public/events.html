@@ -29,7 +29,7 @@
 
 <body>
     <div>
-            <a href="http://localhost:3000/index.html">  <img src="../public/media/logo.jpeg" alt="Logo" height="30%" width="30%"> </a>
+            <a href="http://localhost:3000/index.html">  <img src="../media/logo.jpeg" alt="Logo" height="30%" width="30%"> </a>
     </div>
 
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -196,12 +196,12 @@
 
 
    
-            <div class="row">
+            <div id="card-section" class="row">
 
 
 
                 <!-- <img src='../media/ca.jpg' />-->
-                <div class="card" style="width: 18rem;">
+                <!-- <div class="card" style="width: 18rem;">
                     <img class="card-img-top" src="../public/media/example-Charity-gala.png" height="193px" width="45px" alt="Card image cap">
                     <div class="card-body">
                         <h5 class="card-title">Annual Charity Event</h5>
@@ -209,7 +209,7 @@
                         <p class="card-text">Address: 41494 Parkview Ln</p>
                         <a href="#" class="btn btn-outline-success">View Event</a>
                     </div>
-                </div>
+                </div> -->
 
 
 
@@ -217,7 +217,7 @@
 
 
                 <!--<img src='../media/co.jpg' />-->
-                <div class="card" style="width: 18rem;">
+                <!-- <div class="card" style="width: 18rem;">
                     <img class="card-img-top" src="../public/media/examle-kids.jpg" alt="Card image cap">
                     <div class="card-body">
                         <h5 class="card-title" id="event-name">Children In Need Event</h5>
@@ -225,7 +225,7 @@
                         <p class="card-text" id="event-address">Address: 7604 SW 16 St</p>
                         <a href="#" class="btn btn-outline-success">View Event</a>
                     </div>
-                </div>
+                </div> -->
 
 
 
@@ -234,7 +234,7 @@
 
 
                 <!--<img src='../media/la.jpg' />-->
-                <div class="card" style="width: 18rem;">
+                <!-- <div class="card" style="width: 18rem;">
                     <img class="card-img-top" src="../public/media/example-cancer.jpg" alt="Card image cap">
                     <div class="card-body">
                         <h5 class="card-title">Breast Cancer Fundraiser</h5>
@@ -242,16 +242,10 @@
                         <p class="card-text">Address: 1427 Pine Drive</p>
                         <a href="#" class="btn btn-outline-success">View Event</a>
                     </div>
-                </div>
-
-</div>
-
-
-                <div class="row">
-
+                </div> -->
 
                 <!--<img src='../media/nj.jpg' />-->
-                <div class="card" style="width: 18rem; float: right">
+                <!-- <div class="card" style="width: 18rem; float: right">
                     <img class="card-img-top" src="../public/media/example-marathon.jpg" alt="Card image cap">
                     <div class="card-body">
                         <h5 class="card-title">Marathon Fundraiser</h5>
@@ -259,11 +253,11 @@
                         <p class="card-text">Address: SW 22nd St</p>
                         <a href="#" class="btn btn-outline-success">View Event</a>
                     </div>
-                </div>
+                </div> -->
 
 
                 <!--<img src='../media/nj.jpg' />-->
-                <div class="card" style="width: 18rem; float: right">
+                <!-- <div class="card" style="width: 18rem; float: right">
                     <img class="card-img-top" src="../public/media/volunteer.jpg" alt="Card image cap">
                     <div class="card-body">
                         <h5 class="card-title">Childcare Fundraiser</h5>
@@ -271,10 +265,10 @@
                         <p class="card-text">Address: Central Park West</p>
                         <a href="#" class="btn btn-outline-success">View Event</a>
                     </div>
-                </div>
+                </div> -->
 
                 <!--<img src='../media/nj.jpg' />-->
-                <div class="card" style="width: 18rem; float: right">
+                <!-- <div class="card" style="width: 18rem; float: right">
                     <img class="card-img-top" src="../public/media/blooddrive.jpg" alt="Card image cap">
                     <div class="card-body">
                         <h5 class="card-title">Blood Drive Fundraiser</h5>
@@ -282,7 +276,7 @@
                         <p class="card-text">Address: Central Park East</p>
                         <a href="#" class="btn btn-outline-success">View Event</a>
                     </div>
-                </div>
+                </div> -->
 
     </div>
 
@@ -301,48 +295,52 @@
 
 <!--JS File-->
 
-<!--Login and Sign Up API/AJAX-->
-<script>
-        $(document).ready(function() {
-            var urlParams = new URLSearchParams(window.location.search);
-            if(urlParams.has('user_id')) {
-                // userId = passed with every API call to get user data
-                var userId = urlParams.get('user_id');
-                // HERE WE LOAD THE CURRENT PAGE WITH THE USER SPECIFIC DATA WITH AJAX
-            }
-        });
-        </script>
 
 <!--Activate Modal-->
 <script> 
-        <button type="button" data-toggle="modal" data-target="#myModal">Launch modal</button>
+        // <button type="button" data-toggle="modal" data-target="#myModal">Launch modal</button>
         
-        $('#elegantModalForm').modal(options) </script>
+        
+        </script>
 
 
 <script type="text/javascript">
     $(document).ready(function () {
-
-        $("#a-signup").on("click", function () {
-            console.log("Hi Biance");
-            $('#elegantModalForm').modal("hide");
-            $("#exquisiteModalForm").modal("show");
-        });
+        
+        $("#card-section").empty();
 
         $.ajax({
-            url: '/api/users',
-            method: 'POST',
-            data: {
-                test: "test",
-                test2: "test2"
-            }
-        }).then(function (body, status, resp) {
-            console.log(body);
-            console.log(status);
-            console.log(resp);
-        });
+            url: '/api/events',
+            method: 'GET'            
+        }).then(function(body, status, resp) {    
+            if(status === "success") {
+                console.log(body);                
+                for(var i = 0; i < body.length; i++) {
+                    var randInt = Math.floor(Math.random() * 10) + 1;
+                    $("#card-section").append(`
+                        <div class="card" style="width: 18rem; float: right">
+                            <img class="card-img-top" src="http://lorempixel.com/400/200/food/${randInt}" alt="Card image cap">
+                            <div class="card-body">
+                                <h5 class="card-title">${body[i].name}</h5>                                
+                                <p class="card-text">Address: ${body[i].address}</p>
+                                <p class="card-text">Kitchen</p>
+                                <ul id="ul-event-inventory-${body[i].id}" class="list-group">
+                                </ul> 
+                            </div>
+                        </div>
+                    `);
 
+                    for(var y = 0; y < body[i].inventory.length; y++) {          
+                        $(`#ul-event-inventory-${body[i].id}`).append(`
+                            <li class="list-group-item">
+                                ${body[i].inventory[y].name}, ${body[i].inventory[y].quantity}                                
+                            </li>
+                        `);
+                    }
+                }
+            }
         });
+    });
 
 </script>
 

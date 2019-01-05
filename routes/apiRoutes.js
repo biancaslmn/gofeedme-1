@@ -5,6 +5,7 @@ var inventory = require("../models/inventory.js");
 var users = require("../models/users.js");
 var events = require("../models/events.js");
 var restaurants = require("../models/restaurants.js");
+const bcrypt = require("bcrypt");
 
 var authErrorMessage = "You must supply a 'user_id'";
 
@@ -59,6 +60,22 @@ router.post('/api/restaurants', function(httpReq, httpRes) {
     });
 });
 
+router.get('/api/inventory/available', function(httpReq, httpRes) {
+    if(!httpReq.query.user_id) {
+        return httpRes.status(401).json({ 
+            result: "error",
+            message: authErrorMessage
+        });
+    }
+
+    inventory.getAvailable(function(err, res) {
+        if(err) {
+            return httpRes.status(500).json({ error: err });
+        }
+        httpRes.status(200).json(res);
+    })
+});
+
 router.get('/api/inventory', function(httpReq, httpRes) {    
     if(!httpReq.query.user_id) {
         return httpRes.status(401).json({ 
@@ -82,6 +99,64 @@ router.get('/api/inventory', function(httpReq, httpRes) {
     })
 });
 
+router.get('/api/events/admin', function(httpReq, httpRes) {        
+    events.getAllAdmin(httpReq.query.user_id, function(err, res) {
+        if(err) {
+            return httpRes.status(500).json({ error: err });
+        }
+        httpRes.status(200).json(res);
+    })
+});
+
+router.get('/api/events', function(httpReq, httpRes) {        
+    events.getAll(httpReq.query.user_id, function(err, res) {
+        if(err) {
+            return httpRes.status(500).json({ error: err });
+        }
+        httpRes.status(200).json(res);
+    })
+});
+
+router.delete('/api/events/inventory', function(httpReq, httpRes) {
+    if(!httpReq.body.user_id) {
+        return httpRes.status(401).json({ 
+            result: "error",
+            message: authErrorMessage
+        });
+    }
+    
+    if(!httpReq.body.event_id || !httpReq.body.inventory_id) {
+        return httpRes.status(500).json({ 
+            result: "error",
+            message: "You must provide an eventID and an inventoryID."
+        });
+    }
+
+    events.deleteInventory(httpReq.body.event_id, httpReq.body.inventory_id, function(err, res) {
+            httpRes.status(200).json(res);    
+        }
+    );
+});
+
+router.post('/api/events/inventory', function(httpReq, httpRes) {
+    if(!httpReq.body.user_id) {
+        return httpRes.status(401).json({ 
+            result: "error",
+            message: authErrorMessage
+        });
+    }
+
+    events.addInventory({
+        event_id: httpReq.body.event_id,
+        inventory_id: httpReq.body.inventory_id
+    }, function(err, res) {
+        if(err) {
+            return httpRes.status(500).json({ error: err });
+        }
+        httpRes.status(200).json(res);
+    });
+})
+
 router.post('/api/events', function(httpReq, httpRes) {
     if(!httpReq.body.user_id) {
         return httpRes.status(401).json({ 
@@ -93,14 +168,16 @@ router.post('/api/events', function(httpReq, httpRes) {
         "name",
         "address",
         "user_id",
-        "zipcode"
+        "zipcode",
+        "date"
     ];
 
     var values = [
         httpReq.body.name,
         httpReq.body.address,
         httpReq.body.user_id,
-        httpReq.body.zipcode
+        httpReq.body.zipcode,
+        httpReq.body.date
              
     ];
 
@@ -281,19 +358,25 @@ router.post('/api/users/login', function(httpReq, httpRes) {
 });
 
 router.post('/api/users', function(httpReq, httpRes) {    
-    users.insert([
-        "name",
-        "password",
-        "user_type"
-    ], [
-        httpReq.body.name,
-        httpReq.body.password,
-        httpReq.body.user_type
-    ], function(err,res) {
-        if(err) {
-            return httpRes.status(500).json({ error: err });
+    bcrypt.hash(httpReq.body.password, 10, function(bcryptErr, bcryptHash) {        
+        if(bcryptErr) {
+            return httpRes.status(500).json({ error: bcryptErr });
+        } else {
+            users.insert([
+                "name",
+                "password",
+                "user_type"
+            ], [
+                httpReq.body.name,
+                bcryptHash,
+                httpReq.body.user_type
+            ], function(err,res) {
+                if(err) {
+                    return httpRes.status(500).json({ error: err });
+                }
+                httpRes.status(200).json(res);
+            });    
         }
-        httpRes.status(200).json(res);
     });
 });
 

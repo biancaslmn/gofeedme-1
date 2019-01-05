@@ -49,6 +49,7 @@ CREATE TABLE events
     user_id integer,
     deleted integer DEFAULT 0,
     zipcode integer,
+    date text,
     FOREIGN KEY (user_id) REFERENCES users(id),
     PRIMARY KEY(id)
 );
@@ -58,5 +59,8 @@ CREATE TABLE events_inventory
     id integer AUTO_INCREMENT NOT NULL,
     event_id integer,
     inventory_id integer,
-    PRIMARY KEY(id)
+    FOREIGN KEY (event_id) REFERENCES events(id),
+    FOREIGN KEY (inventory_id) REFERENCES inventory(id),
+    PRIMARY KEY(id),
+    UNIQUE KEY(inventory_id) 
 );

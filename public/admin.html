@@ -86,54 +86,40 @@
         <!-- <h1>  Admin test </h1>   -->
 
         <div class="container">
+        
                 <div class="row">
-                  <div class="col-6">
-                        <!-- <div class="btn-group-vertical">
-                                <button type="button" class="btn btn-secondary">delete</button>
-                                <button type="button" class="btn btn-secondary">update</button>
-                               
-                              </div> -->
-                              <div>
-                              <canvas id="myChart"></canvas>
-                            </div>
-
-                              <!-- <canvas id="myChart" width="400" height="400"></canvas> -->
-
-                  </div>
-                  <div class="col-md-6">
+                  <div class="col">
                         <table class="table table-bordered table-light">
                                 <thead>
                                   <tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col">Events</th>
-                                    <th scope="col">Address</th>
+                                    <th scope="col">Event</th>
+                                    <th scope="col">Address</th>                                    
+                                    <th scope="col">Zipcode</th>
                                     <th scope="col">Inventory</th>
+                                    <th scope="col">Action</th>
                                   </tr>
                                 </thead>
-                                <tbody>
-                                  <tr>
-                                    <th scope="row">1</th>
-                                    <td aria-placeholder="event name" > </td>
-                                    <td aria-placeholder="adress"></td>
-                                    <td aria-placeholder="inventory"></td>
-                                  </tr>
-                                  <tr>
-                                    <th scope="row">2</th>
-                                    <td aria-placeholder="event name" > </td>
-                                    <td aria-placeholder="adress"></td>
-                                    <td aria-placeholder="inventory"></td>
-                                  </tr>
-                                  <tr>
-                                    <th scope="row">3</th>
-                                    <td aria-placeholder="event name" > </td>
-                                    <td aria-placeholder="adress"></td>
-                                    <td aria-placeholder="inventory"></td>
-                                  </tr>
+                                <tbody id="table-body-events">                                  
                                 </tbody>
                               </table>
                    
                   </div>
                 </div>
+                <div class="row">
+                    <div class="col">
+                          <!-- <div class="btn-group-vertical">
+                                  <button type="button" class="btn btn-secondary">delete</button>
+                                  <button type="button" class="btn btn-secondary">update</button>
+                                 
+                                </div> -->
+                                <div>
+                                <canvas id="myChart"></canvas>
+                              </div>
+  
+                                <!-- <canvas id="myChart" width="400" height="400"></canvas> -->
+  
+                    </div>
+                  </div>
                 </div>
                
         
@@ -142,7 +128,139 @@
       <p class="copyright">    2018 copyright  </p>
     </footer>
     </html>
-    <script>
+<script>
+function reloadData(uid) {
+  $("#table-body-events").empty();
+
+  $.ajax({
+    url: '/api/events/admin',
+    method: 'GET',
+    data: {
+      user_id: uid
+    }
+  }).then(function(body, status, resp) {    
+    if(status === "success") {
+      $.ajax({
+        url: '/api/inventory/available',
+        method: 'GET',
+        data: {
+          user_id: uid
+        }
+      }).then(function(body2, status2, resp2) {
+        for(var i = 0; i < body.length; i++) {
+          $("#table-body-events").append(`
+            <tr>
+              <td><strong>${body[i].name}</strong></td>
+              <td><strong>${body[i].address}</strong></td>
+              <td><strong>${body[i].zipcode}</strong></td>              
+              <td>
+                <ul id="ul-event-inventory-${body[i].id}" class="list-group">
+                </ul>                       
+              </td>
+              <td>        
+                <div class="row"><div class="col">        
+                <select class="form-control" id="event-inv-avail-${body[i].id}">                  
+                </select>
+                </div></div>
+                <div class="row"><div class="col">        
+                <button                   
+                  data-event-id="${body[i].id}" 
+                  type="button" 
+                  class="btn btn-outline-success btn-sm btn-add-inventory-cls">
+                  Add
+                </button>
+                </div></div>
+              </td>
+          </tr>`);  
+          
+          if(body2.length > 0) {
+            for(var x = 0; x < body2.length; x++) {
+              $(`#event-inv-avail-${body[i].id}`).append(`
+                <option value="${body2[x].id}">${body2[x].name}</option>
+              `);
+            }
+          } else {
+            $(`#event-inv-avail-${body[i].id}`).append(`
+              <option>No inventory Available</option>
+            `);
+            $(".btn-add-inventory-cls").hide();
+          }
+          
+          for(var y = 0; y < body[i].inventory.length; y++) {          
+            $(`#ul-event-inventory-${body[i].id}`).append(`
+              <li class="list-group-item">
+                ${body[i].inventory[y].name}
+                <button 
+                  data-event-id="${body[i].id}"
+                  data-inventory-id="${body[i].inventory[y].id}" 
+                  type="button" 
+                  class="btn btn-outline-success btn-sm btn-rm-inventory-cls">
+                  x
+                </button>
+                </li>
+            `);
+          }
+        }
+      })
+    } 
+  }).catch(function(err) {    
+    alert(err);
+  });
+}
+
+$(document).ready(function() {
+  var userId;
+  var urlParams = new URLSearchParams(window.location.search);
+  if(urlParams.has('user_id')) {              
+    userId = urlParams.get('user_id');    
+    reloadData(userId);                     
+  }
+
+  $("#table-body-events").on("click", ".btn-rm-inventory-cls", function() {    
+    var eventId = $(this).attr("data-event-id");
+    var invId = $(this).attr("data-inventory-id");
+
+    $.ajax({
+      url: '/api/events/inventory',
+      method: 'DELETE',
+      data: {
+        user_id: userId,
+        inventory_id: invId,
+        event_id: eventId
+      }   
+    }).then(function(body, status, response) {
+      if(status === 'success') {        
+        reloadData(userId);
+      }
+    }).catch(function(err) {    
+      alert(err);
+    });
+  })
+
+  $("#table-body-events").on("click", ".btn-add-inventory-cls", function() {    
+    var eventId = $(this).attr("data-event-id");
+    var invId = $(`#event-inv-avail-${eventId} option:selected`).val();
+
+    $.ajax({
+      url: '/api/events/inventory',
+      method: 'POST',
+      data: {
+        user_id: userId,
+        inventory_id: invId,
+        event_id: eventId
+      }   
+    }).then(function(body, status, response) {
+      if(status === 'success') {        
+        reloadData(userId);
+      } 
+    }).catch(function(err) {    
+      alert(err);
+    });
+  })
+
+});
+
+
 
     var ctx = document.getElementById('myChart').getContext('2d');
     var chart = new Chart(ctx, {
@@ -163,7 +281,7 @@
         // Configuration options go here
         options: {}
     });
-  </script>
+</script>
 
    
 

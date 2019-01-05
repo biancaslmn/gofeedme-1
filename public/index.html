@@ -310,9 +310,9 @@
             $.ajax({
                 url: `/dashboard?user_id=${email}&password=${password}`,
                 method: 'GET'
-            }).then(function(body, status, resp) {                        
-               if(body.result === 'redirect') {                    
-                    window.location.replace(body.url);
+            }).then(function(body, status, resp) {                                        
+                if(body.result === 'redirect') {                    
+                    location.reload(true);
                 } 
             }).catch(function(err){                
                 alert(err.responseJSON.message);

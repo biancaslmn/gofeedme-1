@@ -16,6 +16,23 @@ var inventory = {
     orm.selectWhere2(table, conditionObj, function(err, res) {
       cb(err, res);
     })
+  },
+  getAvailable: function(cb) {
+    var query = `
+    SELECT * 
+    FROM inventory 
+    WHERE deleted = 0 
+    AND id NOT IN(
+              SELECT inventory_id 
+              FROM events_inventory
+            );
+    `;
+    orm.query(query, function(eventErr, eventsRes) {
+      if (eventErr) {
+        throw eventErr;
+      }
+      cb(eventErr, eventsRes);
+    });
   }
 };
 

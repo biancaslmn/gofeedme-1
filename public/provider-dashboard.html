@@ -257,6 +257,7 @@
             alert("There was an issue posting the restaurant.");
           }
           $("#elegantModalForm").modal('hide');
+          $("#inputRestaurant4").val("");
           $("#inputAddress").val("");
           $("#inputZip").val("");
           $("#inputKitchen4").val("");
@@ -266,6 +267,7 @@
 
     function reloadData(userId){
       $("#table-body-restaurants").empty();
+
       $.ajax({
           url: '/api/restaurants',
           method: 'GET',
@@ -273,6 +275,7 @@
             user_id: userId
           }
         }).then(function(body, status, resp){    
+          
           if(status === "success") {
             $.ajax({
                 url: '/api/inventory',
@@ -281,7 +284,8 @@
                   user_id: userId                
                 }
               }).then(function(body2, status2, resp2) {
-                if(status === 'success') {
+
+                if(status === 'success') {                  
                   for(var i = 0; i < body.length; i++) {                              
                     $("#table-body-restaurants").append(`
                     <tr>
